@@ -15,6 +15,6 @@
         "chance": "^1.1.6"
     },
     "scripts": {
-        "wdio": "wdio run wdio.conf.js"
+        "test:all": "wdio configs/wdio.conf.js"
     }
 }
