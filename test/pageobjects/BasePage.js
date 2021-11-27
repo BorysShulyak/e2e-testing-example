@@ -1,4 +1,4 @@
-export default class Page {
+export class BasePage {
     typeIn (element, text, timeMilliSec = 5000) {
         element.waitForDisplayed({ timeout: timeMilliSec })
         element.addValue(text)
