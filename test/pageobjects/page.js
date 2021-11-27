@@ -1,13 +1,43 @@
-/**
-* main page object containing all methods, selectors and functionality
-* that is shared across all page objects
-*/
 export default class Page {
-    /**
-    * Opens a sub page of the page
-    * @param path path of the sub page (e.g. /path/to/page.html)
-    */
-    open(path) {
-        return browser.url(`https://the-internet.herokuapp.com/${path}`)
+    typeIn (element, text, timeMilliSec = 5000) {
+        element.waitForDisplayed({ timeout: timeMilliSec })
+        element.addValue(text)
+    }
+
+    clearAndTypeIn (element, text, timeMilliSec = 5000) {
+        element.waitForDisplayed(timeMilliSec)
+        element.clearValue()
+        element.addValue(text)
+    }
+
+    clickOn (element, timeMilliSec = 7000) {
+        element.waitForDisplayed({ timeout: timeMilliSec })
+        element.click()
+    }
+
+    getText (element) {
+        return element.getText()
+    }
+
+    getElementByText (text) {
+        return $(`//*[text()="${text}"]`)
+    }
+
+    waitForUrl (value, timeout = 5000) {
+        if (typeof value !== 'string') throw new Error('Expected "value" type string')
+        let url, isMatch
+
+        try {
+            return browser.waitUntil(
+              () => {
+                  url = browser.getUrl()
+                  isMatch = value === url
+                  return value && isMatch
+              },
+              { timeout }
+            )
+        } catch (error) {
+            throw new Error(`\n\tActual: ${url} \n\tExpected: ${value}`)
+        }
     }
 }
